@@ -1,25 +1,37 @@
 {
-  "name": "diff",
-  "version": "1.0.0",
-  "description": "Coding challenge diff tool",
-  "type": "commonjs",
-  "main": "dist/bin.js",
-  "scripts": {
-    "test": "npx jest",
-    "build": "esbuild src/bin.ts --bundle --platform=node --outfile=dist/bin.js --packages=external --watch"
-  },
-  "bin": {
-    "ccdiff": "./dist/bin.js"
-  },
-  "keywords": [],
-  "author": "QuickerMaths",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.12",
-    "esbuild": "^0.21.3",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.2",
-    "typescript": "^5.4.5"
-  }
+    "name": "diff",
+    "version": "1.0.0",
+    "description": "Coding challenge diff tool",
+    "type": "commonjs",
+    "main": "dist/bin.js",
+    "scripts": {
+        "test": "npx jest",
+        "build": "esbuild src/bin.ts --bundle --platform=node --outfile=dist/bin.js --packages=external --watch"
+    },
+    "bin": {
+        "ccdiff": "./dist/bin.js"
+    },
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "jsx",
+            "tsx",
+            "ts"
+        ],
+        "rootDir": "__tests__/",
+        "transform": {
+            "^.+\\.(ts|tsx)?$": "ts-jest"
+        }
+    },
+    "keywords": [],
+    "author": "QuickerMaths",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.12.12",
+        "esbuild": "^0.21.3",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.2",
+        "typescript": "^5.4.5"
+    }
 }
