@@ -1,0 +1,22 @@
+{
+  "name": "diff",
+  "version": "1.0.0",
+  "description": "Coding challenge diff tool",
+  "type": "commonjs",
+  "main": "dist/bin.js",
+  "scripts": {
+      "test": "test",
+      "build": "esbuild src/bin.ts --bundle --platform=node --outfile=dist/bin.js --packages=external --watch"
+  },
+  "bin": {
+    "ccdiff": "./dist/bin.js"
+  },
+  "keywords": [],
+  "author": "QuickerMaths",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "esbuild": "^0.21.3",
+    "typescript": "^5.4.5"
+  }
+}
