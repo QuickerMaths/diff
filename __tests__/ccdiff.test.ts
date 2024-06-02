@@ -1,11 +1,11 @@
-import { ccdiff } from '../src/ccdiff';
+import { lscTwoStrings } from '../src/lcs-two-strings';
 
 describe('finds longest common subsequence', () => {
     it('should return ABCDEF', () => {
         const string1 = 'ABCDEF';
         const string2 = 'ABCDEF';
 
-        const result = ccdiff(string1, string2);
+        const result = lscTwoStrings(string1, string2);
 
         expect(result).toBe('ABCDEF');
     });
@@ -14,7 +14,7 @@ describe('finds longest common subsequence', () => {
         const string1 = 'ABC';
         const string2 = 'XYZ';
 
-        const result = ccdiff(string1, string2);
+        const result = lscTwoStrings(string1, string2);
 
         expect(result).toBe('');
     });
@@ -23,7 +23,7 @@ describe('finds longest common subsequence', () => {
         const string1 = 'ABBCXY';
         const string2 = 'XY';
 
-        const result = ccdiff(string1, string2);
+        const result = lscTwoStrings(string1, string2);
 
         expect(result).toBe('XY');
     });
@@ -32,7 +32,7 @@ describe('finds longest common subsequence', () => {
         const string1 = '';
         const string2 = '';
 
-        const result = ccdiff(string1, string2);
+        const result = lscTwoStrings(string1, string2);
 
         expect(result).toBe('');
     });
@@ -41,7 +41,7 @@ describe('finds longest common subsequence', () => {
         const string1 = 'ABCD';
         const string2 = 'AC';
 
-        const result = ccdiff(string1, string2);
+        const result = lscTwoStrings(string1, string2);
 
         expect(result).toBe('AC');
     });

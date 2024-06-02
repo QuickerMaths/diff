@@ -1,4 +1,4 @@
-export function ccdiff(string1: string, string2: string): string {
+export function lscTwoStrings(string1: string, string2: string): string {
     return lcs(string1, string2);
 }
 
