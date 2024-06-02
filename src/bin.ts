@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-console.log('diff');
+import { cli } from "./cli";
+
+cli(process.argv);
