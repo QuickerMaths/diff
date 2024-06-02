@@ -2,7 +2,7 @@ export function lscTwoStrings(string1: string, string2: string): string {
     return lcs(string1, string2);
 }
 
-function initalizeLcsTable(n: number, m: number) {
+export function initalizeLcsTable(n: number, m: number) {
     const table = new Array(n + 1).fill(null).map(() => new Array(m + 1).fill(0));
 
     for (let i = 0; i <= m; i++) {
