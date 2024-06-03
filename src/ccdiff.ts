@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { initalizeLcsTable } from './lcs-two-strings';
+import { initalizeLcsTable } from './utils/initalize-table';
 
 type LineChange = { index: number, string: string };
 type LCSReturnType = {

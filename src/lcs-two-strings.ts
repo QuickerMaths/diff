@@ -1,20 +1,9 @@
+import { initalizeLcsTable } from "./utils/initalize-table";
+
 export function lscTwoStrings(string1: string, string2: string): string {
     return lcs(string1, string2);
 }
 
-export function initalizeLcsTable(n: number, m: number) {
-    const table = new Array(n + 1).fill(null).map(() => new Array(m + 1).fill(0));
-
-    for (let i = 0; i <= m; i++) {
-        table[i][0] = 0;
-    }
-
-    for (let j = 0; j <= n; j++) {
-        table[0][j] = 0;
-    }
-
-    return table;
-}
 
 function lcs(string1: string, string2: string): string {
     const n = string1.length;
