@@ -66,7 +66,7 @@ export function lcs(lines1: string[], lines2: string[]): LCSReturnType{
         i--;
     }
 
-    return { inserted: inserted.reverse(), deleted: deleted.reverse(), lcs: lcs.reverse()};
+    return { inserted: inserted.reverse(), deleted: deleted.reverse(), lcs };
 }
 
 function readFiles(path1: string, path2: string) {
