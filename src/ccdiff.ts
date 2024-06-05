@@ -13,7 +13,10 @@ export function ccdiff(path1: string, path2: string): string {
 
     const { inserted, deleted } = lcs(file1, file2); 
 
-    const output = prepareOutput(inserted, deleted);
+    const f1Length = file1.length;
+    const f2Lenght = file2.length;
+
+    const output = prepareOutput(inserted, deleted, f1Length, f2Lenght);
 
     return output; 
 }
@@ -66,7 +69,7 @@ export function lcs(lines1: string[], lines2: string[]): LCSReturnType{
         i--;
     }
 
-    return { inserted: inserted.reverse(), deleted: deleted.reverse(), lcs };
+    return { inserted, deleted, lcs };
 }
 
 function readFiles(path1: string, path2: string) {
@@ -80,33 +83,104 @@ function readFiles(path1: string, path2: string) {
     }
 }
 
-function prepareOutput(inserted: LineChange[], deleted: LineChange[]) {
+function prepareOutput(inserted: LineChange[], deleted: LineChange[], f1Length: number, f2Length: number): string {
     let output = ``;
-
     let x = 0;
     let y = 0;
+    let insertedChangeRange = 0;
+    let deletedChangeRange = 0;
     const length1 = inserted.length;
     const length2 = deleted.length;
 
     while (x < length1 && y < length2) {
-        if(inserted[x].index === deleted[y].index){
-            output = output + `${inserted[x].index}c${deleted[y].index}\n`;
-            output = output + `${inserted[x].string}\n`;
+        if(inserted[x + insertedChangeRange]?.index === deleted[y + deletedChangeRange]?.index){
+            let insertedRange = 1;
+            let deletedRange = 1;
+            let insertOutput = `${inserted[x].string}\n`;
+            let deletedOutput = `${deleted[y].string}\n`;
+
+            while(inserted[x + insertedRange]?.index - inserted[x + insertedRange - 1].index === 1) {
+                insertOutput = insertOutput + `${inserted[x + insertedRange].string}\n`; 
+                insertedRange++;
+            }
+
+            while(deleted[y + deletedRange]?.index - deleted[y + deletedRange - 1].index === 1) {
+                deletedOutput = deletedOutput + `${deleted[y + deletedRange].string}\n`; 
+                deletedRange++;
+            }
+
+            output += `${inserted[x].index}${inserted[x].index !== inserted[x + insertedRange - 1]?.index && insertedRange > 1 ? `,${inserted[x + insertedRange - 1].index}` : ''}c${deleted[y].index}${deleted[y].index !== deleted[y + deletedRange - 1].index && deletedRange > 1 ? `,${deleted[y + deletedRange - 1].index}` : ''}\n`;
+            output = output + insertOutput;
             output = output + '---\n';
-            output = output + `${deleted[y].string}\n`;
-            x++;
-            y++;
+            output = output + deletedOutput;
+
+            insertedChangeRange += insertedRange;
+            deletedChangeRange += deletedRange;
+            x += insertedRange;
+            y += deletedRange;
         } else { 
             if(inserted[x].index < deleted[y].index) {
-                output = output + `${inserted[x].index}a${inserted[y].index}\n`;
-                output = output + `${inserted[x].string}\n`;
-                x++;
+                let range = 1;
+                let insertedOutput = `${inserted[x].string}\n`;
+
+                while(inserted[x + range]?.index - inserted[x + range - 1].index === 1) {
+                    insertedOutput += `${inserted[x + range].string}\n`;
+                    range++;
+                }
+
+                output += `${inserted[x].index}${inserted[x].index !== inserted[x + range - 1]?.index && range > 1 ? `,${inserted[x + range - 1].index}` : ''}d${inserted[x].index + deletedChangeRange - 1}\n`;
+                output += insertedOutput;
+
+                x += range;
+                insertedChangeRange += range;
             } else {
-                output = output + `${deleted[x].index}a${deleted[y].index}\n`;
-                output = output + `${deleted[x].string}\n`;
-                y++;
+                let range = 1;
+                let deletedOutput = `${deleted[y].string}\n`;
+
+                while(deleted[y + range]?.index - deleted[y + range - 1].index === 1) {
+                    deletedOutput += `${deleted[y + range].string}\n`;
+                    range++;
+                }
+
+                output += `${deleted[y].index + insertedChangeRange - 1}a${deleted[y].index}${deleted[y].index !== deleted[y + range - 1]?.index && range > 1 ? `,${deleted[y + range - 1].index}` : ''}\n`;
+                output += deletedOutput;
+
+                y += range;
+                deletedChangeRange += range;
             }
         }
+    }
+
+    while(x < length1) {
+                let range = 1;
+                 let insertedOutput = `${inserted[x].string}\n`;
+
+                while(inserted[x + range]?.index - inserted[x + range - 1].index === 1) {
+                    insertedOutput += `${inserted[x + range].string}\n`;
+                    range++;
+                }
+
+                output += `${inserted[x].index}${inserted[x].index !== inserted[x + range - 1]?.index && range > 1 ? `,${inserted[x + range - 1].index}` : ''}d${f2Length - 1}\n`;
+                output += insertedOutput;
+
+                x += range;
+                insertedChangeRange += range;
+    }
+
+    while(y < length2) {
+                let range = 1;
+                let deletedOutput = `${deleted[y].string}\n`;
+
+                while(deleted[y + range]?.index - deleted[y + range - 1].index === 1) {
+                    deletedOutput += `${deleted[y + range].string}\n`;
+                    range++;
+                }
+
+                output += `${f1Length - 1}a${deleted[y].index}${deleted[y].index !== deleted[y + range - 1]?.index && range > 1 ? `,${deleted[y + range - 1].index}` : ''}\n`;
+                output += deletedOutput;
+
+                y += range;
+                deletedChangeRange += range;
     }
 
     return output; 
