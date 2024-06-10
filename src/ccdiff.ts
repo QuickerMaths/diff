@@ -73,7 +73,6 @@ export function lcs(lines1: string[], lines2: string[]): LCSReturnType{
 }
 
 function readFiles(path1: string, path2: string) {
-    // handle file not found
     const file1 = fs.readFileSync(path1).toString().split(/\r\n|\n/);
     const file2 = fs.readFileSync(path2).toString().split(/\r\n|\n/);
 
